@@ -1,2 +1,3 @@
 #!/bin/bash
-ansible-playbook -i /root/workspace/ansible/hosts /root/workspace/ansible/tomcat.yaml
+cd /root/workspace/ansible
+ansible-playbook -i hosts tomcat.yaml
