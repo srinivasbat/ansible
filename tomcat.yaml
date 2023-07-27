@@ -41,6 +41,6 @@
 
     - name: Copy the war file to Tomcat
       copy:
-        src: /root/hello-world.war
+        src: /root/sample.war
         dest: /opt/apache-tomcat-9.0.78/webapps
         mode: '0644'
