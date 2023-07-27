@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // This step will run the Ansible playbook using the 'hosts' file from the Jenkins workspace
                 script {
-                    sh 'ansible-playbook -i /root/workspace/ansible/hosts /root/workspace/ansible/playbook.yaml'
+                    sh 'ansible-playbook -i /root/workspace/ansible/hosts /root/workspace/ansible/tomcat.yaml'
                 }
             }
         }
