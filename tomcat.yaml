@@ -8,12 +8,12 @@
         name: '*'
         state: latest
 
-    - name: install java
+    - name: Install Java
       yum:
         name: java-1.8.0-openjdk
         state: present
 
-    - name: Downloading tomcat
+    - name: Downloading Tomcat
       get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.zip
         dest: /opt
@@ -27,7 +27,17 @@
         mode: '777'
 
     - name: Starting Tomcat
-      ansible.builtin.shell: nohup /opt/apache-tomcat-9.0.78/bin/startup.sh &
+      shell: nohup /opt/apache-tomcat-9.0.78/bin/startup.sh &
+      async: 0
+      poll: 0
+
+    - name: Wait for Tomcat to start
+      wait_for:
+        host: localhost
+        port: 8080
+        state: started
+        delay: 5
+        timeout: 300
 
     - name: Copy the war file to Tomcat
       copy:
