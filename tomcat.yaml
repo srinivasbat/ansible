@@ -7,30 +7,25 @@
       yum:
         name: '*'
         state: latest
-
     - name: Install Java
       yum:
         name: java-1.8.0-openjdk
         state: present
-
     - name: Downloading Tomcat
       get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.zip
         dest: /opt
         mode: '0440'
-
     - name: Extract zip file
       unarchive:
         src: /opt/apache-tomcat-9.0.78.zip
         dest: /opt/
         remote_src: yes
         mode: '777'
-
     - name: Starting Tomcat
       shell: nohup /opt/apache-tomcat-9.0.78/bin/startup.sh &
       async: 0
       poll: 0
-
     - name: Wait for Tomcat to start
       wait_for:
         host: localhost
@@ -38,7 +33,6 @@
         state: started
         delay: 5
         timeout: 300
-
     - name: Copy the war file to Tomcat
       copy:
         src: /root/sample.war
