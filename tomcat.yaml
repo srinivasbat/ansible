@@ -1,0 +1,29 @@
+remote_user: root
+  become: yes
+  tasks:
+  - name: Upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+  - name: install java
+    yum:
+      name: java-1.8.0-openjdk
+      state: present
+  - name: Downloadinf tomcat
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.zip
+      dest: /opt
+      mode: '0440'
+  - name: Extract zip file
+    unarchive:
+      src: /opt/apache-tomcat-9.0.78.zip
+      dest: /opt/
+      remote_src: yes
+      mode: '777'
+  - name: starting tomcat
+    ansible.builtin.shell: nohup /opt/apache-tomcat-9.0.78/bin/startup.sh &
+  - name: Copy the war file to tomcat
+    copy:
+      src: /root/hello-world.war
+      dest: /opt/apache-tomcat-9.0.78/webapps
+      mode: '0644'
